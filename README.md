@@ -58,3 +58,7 @@ uv pip install --python .venv/bin/python pytest homeassistant aiomqtt
 Architecture: pure core (`const.py` — payload parsing, dedup, backoff; fully unit-tested)
 + thin HA shell (`mqtt_client.py`, entities). Alarm semantics mirror the GeoShake cloud
 worker: new event → ON, 120 s auto-clear with reset, `event_id` dedup (QoS 1 redelivery).
+
+Brand images live in `custom_components/geoshake/brand/` (HA 2026.3+ Brands Proxy API —
+local images take priority over the brands CDN; no `home-assistant/brands` PR needed).
+On older HA versions a generic placeholder is shown instead.
