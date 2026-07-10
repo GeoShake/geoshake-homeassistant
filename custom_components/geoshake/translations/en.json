@@ -1,0 +1,34 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to GeoShake",
+        "description": "Enter the GeoShake MQTT credentials that came with your device.",
+        "data": {
+          "broker": "Broker",
+          "port": "Port",
+          "username": "Username",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect to the GeoShake server. Check your network and try again.",
+      "invalid_auth": "Invalid username or password.",
+      "unknown": "Unexpected error. Check the Home Assistant logs."
+    },
+    "abort": {
+      "already_configured": "This GeoShake account is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "GeoShake options",
+        "data": {
+          "off_delay": "Alarm auto-clear delay (seconds)"
+        }
+      }
+    }
+  }
+}

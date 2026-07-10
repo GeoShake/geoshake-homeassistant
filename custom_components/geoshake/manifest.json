@@ -1,0 +1,13 @@
+{
+  "domain": "geoshake",
+  "name": "GeoShake",
+  "codeowners": ["@geoshake"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://geoshake.org",
+  "integration_type": "hub",
+  "iot_class": "cloud_push",
+  "issue_tracker": "https://github.com/geoshake/geoshake-homeassistant/issues",
+  "requirements": ["aiomqtt==2.5.1"],
+  "version": "0.1.0"
+}

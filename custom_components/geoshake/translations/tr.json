@@ -1,0 +1,34 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "GeoShake'e bağlan",
+        "description": "Cihazınızla birlikte gelen GeoShake MQTT bilgilerini girin.",
+        "data": {
+          "broker": "Sunucu",
+          "port": "Port",
+          "username": "Kullanıcı adı",
+          "password": "Şifre"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "GeoShake sunucusuna bağlanılamadı. Ağınızı kontrol edip tekrar deneyin.",
+      "invalid_auth": "Kullanıcı adı veya şifre hatalı.",
+      "unknown": "Beklenmeyen hata. Home Assistant loglarına bakın."
+    },
+    "abort": {
+      "already_configured": "Bu GeoShake hesabı zaten ekli."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "GeoShake ayarları",
+        "data": {
+          "off_delay": "Alarm otomatik temizleme süresi (saniye)"
+        }
+      }
+    }
+  }
+}
