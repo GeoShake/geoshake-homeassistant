@@ -69,6 +69,14 @@ class GeoShakeConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_account(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         errors: dict[str, str] = {}
         if user_input is not None:
+            # KRİTİK SIRA: dedup MINT'TEN ÖNCE. fetch_credentials sunucuda şifreyi
+            # ROTATE eder (geri alınamaz yan etki); önce mint edip sonra
+            # "already_configured" ile abort etmek, MEVCUT kurulumun credential'ını
+            # sessizce geçersizleştirirdi (bir sonraki reconnect'te alarm ölür).
+            # Account yolu unique_id = normalize email (hesap başına tek entry).
+            await self.async_set_unique_id(user_input[CONF_EMAIL].strip().lower())
+            self._abort_if_unique_id_configured()
+
             session = async_get_clientsession(self.hass)
             try:
                 cred = await fetch_credentials(
@@ -92,7 +100,8 @@ class GeoShakeConfigFlow(ConfigFlow, domain=DOMAIN):
                     CONF_USERNAME: cred.username,
                     CONF_PASSWORD: cred.password,
                 }
-                result = await self._finish(mqtt_data, errors)
+                # unique_id yukarıda email olarak set edildi — _finish tekrar SET ETMEZ.
+                result = await self._finish(mqtt_data, errors, set_unique_id=False)
                 if result is not None:
                     return result  # entry oluştu; aksi halde errors dolu → form tekrar
 
@@ -109,11 +118,18 @@ class GeoShakeConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_show_form(step_id="manual", data_schema=MANUAL_SCHEMA, errors=errors)
 
     async def _finish(
-        self, mqtt_data: dict[str, Any], errors: dict[str, str]
+        self, mqtt_data: dict[str, Any], errors: dict[str, str], set_unique_id: bool = True
     ) -> ConfigFlowResult | None:
-        """Ortak kapanış: unique_id + canlı MQTT doğrulaması + entry. Hata → None (form tekrar)."""
-        await self.async_set_unique_id(f"{mqtt_data[CONF_USERNAME]}@{mqtt_data[CONF_BROKER]}")
-        self._abort_if_unique_id_configured()
+        """Ortak kapanış: (manuel yolda unique_id) + canlı MQTT doğrulaması + entry.
+
+        Hata → None (form tekrar). unique_id şemaları: account = normalize email
+        (mint'ten önce set edilir — rotate yan etkisi dedup'ı beklemek zorunda),
+        manuel = username@broker. İki şema karışık: aynı kişi account + manuel
+        eklerse dedup birbirini görmez — pilot kabulü (README'de rotate notu var).
+        """
+        if set_unique_id:
+            await self.async_set_unique_id(f"{mqtt_data[CONF_USERNAME]}@{mqtt_data[CONF_BROKER]}")
+            self._abort_if_unique_id_configured()
 
         try:
             async with asyncio.timeout(PROBE_TIMEOUT_S):
