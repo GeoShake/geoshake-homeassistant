@@ -20,7 +20,15 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_call_later
 
 from . import GeoShakeConfigEntry
-from .const import CONF_OFF_DELAY, DEFAULT_OFF_DELAY_S, GeoShakeEvent
+from .const import (
+    CONF_OFF_DELAY,
+    CONF_RADIUS_KM,
+    DEFAULT_OFF_DELAY_S,
+    DEFAULT_RADIUS_KM,
+    GeoShakeEvent,
+    event_within,
+    haversine_km,
+)
 from .entity import GeoShakeEntity
 
 
@@ -32,9 +40,12 @@ async def async_setup_entry(
     async_add_entities([EarthquakeAlarm(entry), ConnectionStatus(entry)])
 
 
-def event_attributes(event: GeoShakeEvent) -> dict[str, Any]:
-    """Olay → entity öznitelikleri (earthquake + last_event aynı sözlüğü kullanır)."""
-    return {
+def event_attributes(event: GeoShakeEvent, home: tuple[float, float] | None = None) -> dict[str, Any]:
+    """Olay → entity öznitelikleri (earthquake + last_event aynı sözlüğü kullanır).
+
+    GH3c: home (lat, lon) verilirse olayın eve uzaklığı da eklenir (distance_km).
+    """
+    attrs: dict[str, Any] = {
         "event_id": event.event_id,
         "origin": datetime.fromtimestamp(event.origin_ms / 1000, tz=timezone.utc).isoformat(),
         "latitude": event.lat,
@@ -43,6 +54,9 @@ def event_attributes(event: GeoShakeEvent) -> dict[str, Any]:
         "intensity_class": event.intensity_class,
         "max_pga": event.max_pga,
     }
+    if home is not None:
+        attrs["distance_km"] = round(haversine_km(event.lat, event.lon, home[0], home[1]), 1)
+    return attrs
 
 
 class EarthquakeAlarm(GeoShakeEntity, BinarySensorEntity):
@@ -57,6 +71,11 @@ class EarthquakeAlarm(GeoShakeEntity, BinarySensorEntity):
         self._attr_is_on = False
         self._cancel_clear: Any = None
         self._off_delay = entry.options.get(CONF_OFF_DELAY, DEFAULT_OFF_DELAY_S)
+        # GH3c bölge filtresi: 0 = kapalı. Ev konumu HA yapılandırmasından.
+        self._radius_km = entry.options.get(CONF_RADIUS_KM, DEFAULT_RADIUS_KM)
+
+    def _home(self) -> tuple[float, float]:
+        return (self.hass.config.latitude, self.hass.config.longitude)
 
     async def async_added_to_hass(self) -> None:
         await super().async_added_to_hass()
@@ -64,8 +83,12 @@ class EarthquakeAlarm(GeoShakeEntity, BinarySensorEntity):
 
         @callback
         def _on_event(event: GeoShakeEvent) -> None:
+            home = self._home()
+            # Yarıçap dışındaki olay ALARMI tetiklemez (Last event sensörü yine gösterir).
+            if not event_within(event, home[0], home[1], self._radius_km):
+                return
             self._attr_is_on = True
-            self._attr_extra_state_attributes = event_attributes(event)
+            self._attr_extra_state_attributes = event_attributes(event, home)
             self._schedule_clear()
             self.async_write_ha_state()
 

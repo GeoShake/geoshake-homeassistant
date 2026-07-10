@@ -50,4 +50,8 @@ class LastEventSensor(GeoShakeEntity, SensorEntity):
 
     def _apply(self, event: GeoShakeEvent) -> None:
         self._attr_native_value = datetime.fromtimestamp(event.origin_ms / 1000, tz=timezone.utc)
-        self._attr_extra_state_attributes = event_attributes(event)
+        # hass entity eklenmeden önce yok (reload tohumlaması __init__'ten çağırır)
+        # → home'suz öznitelik; ilk canlı olayda distance_km gelir.
+        hass = getattr(self, "hass", None)
+        home = (hass.config.latitude, hass.config.longitude) if hass else None
+        self._attr_extra_state_attributes = event_attributes(event, home)

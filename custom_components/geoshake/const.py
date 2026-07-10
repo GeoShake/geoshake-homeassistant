@@ -9,6 +9,7 @@ Payload sözleşmesi: geoshake/events EventPacket JSON —
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import dataclass
 
 DOMAIN = "geoshake"
@@ -17,8 +18,14 @@ DEFAULT_BROKER = "mqtt.geoshake.org"
 DEFAULT_PORT = 8883
 EVENTS_TOPIC = "geoshake/events"
 
+# GH3c: hesap-girişli kurulum — credential takası bu API'den yapılır.
+DEFAULT_API_BASE = "https://map.geoshake.org"
+
 CONF_BROKER = "broker"
 CONF_OFF_DELAY = "off_delay"
+# GH3c bölge filtresi: 0 = KAPALI (tüm ağ olayları); >0 km = yalnız yakın olaylar.
+CONF_RADIUS_KM = "radius_km"
+DEFAULT_RADIUS_KM = 0
 
 # Alarm semantiği GH worker ile AYNI: 120sn yeni olay yoksa normale dön.
 DEFAULT_OFF_DELAY_S = 120
@@ -129,3 +136,24 @@ def next_backoff(current: float | None) -> float:
     if current is None:
         return RECONNECT_MIN_S
     return min(current * 2, RECONNECT_MAX_S)
+
+
+# ── GH3c: bölge filtresi (saf matematik — pytest ile test edilir) ─────────────
+
+_EARTH_RADIUS_KM = 6371.0
+
+
+def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """İki koordinat arası büyük-daire mesafesi (km)."""
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dp = math.radians(lat2 - lat1)
+    dl = math.radians(lon2 - lon1)
+    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * _EARTH_RADIUS_KM * math.asin(math.sqrt(a))
+
+
+def event_within(event: GeoShakeEvent, home_lat: float, home_lon: float, radius_km: float) -> bool:
+    """Olay, ev konumunun yarıçapı içinde mi? radius_km<=0 → filtre KAPALI (hep True)."""
+    if radius_km <= 0:
+        return True
+    return haversine_km(event.lat, event.lon, home_lat, home_lon) <= radius_km

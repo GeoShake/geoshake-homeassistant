@@ -3,6 +3,21 @@
     "step": {
       "user": {
         "title": "Connect to GeoShake",
+        "menu_options": {
+          "account": "Sign in with GeoShake account (recommended)",
+          "manual": "Manual MQTT credentials (advanced)"
+        }
+      },
+      "account": {
+        "title": "Sign in to GeoShake",
+        "description": "Enter your GeoShake account. Your personal connection credentials are set up automatically — your account password is not stored.",
+        "data": {
+          "email": "Email",
+          "password": "Password"
+        }
+      },
+      "manual": {
+        "title": "Manual MQTT setup",
         "description": "Enter the GeoShake MQTT credentials that came with your device.",
         "data": {
           "broker": "Broker",
@@ -14,7 +29,8 @@
     },
     "error": {
       "cannot_connect": "Could not connect to the GeoShake server. Check your network and try again.",
-      "invalid_auth": "Invalid username or password.",
+      "invalid_auth": "Invalid email or password.",
+      "rate_limited": "Too many attempts. Please wait a few minutes and try again.",
       "unknown": "Unexpected error. Check the Home Assistant logs."
     },
     "abort": {
@@ -26,7 +42,8 @@
       "init": {
         "title": "GeoShake options",
         "data": {
-          "off_delay": "Alarm auto-clear delay (seconds)"
+          "off_delay": "Alarm auto-clear delay (seconds)",
+          "radius_km": "Alert radius from home in km (0 = all events)"
         }
       }
     }

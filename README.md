@@ -17,11 +17,24 @@ Home Assistant's MQTT integration slot**.
 1. HACS → **⋮ → Custom repositories** → add this repository URL, category **Integration**.
 2. Search **GeoShake** in HACS → **Download** → restart Home Assistant.
 3. **Settings → Devices & Services → + Add Integration → GeoShake.**
-4. Enter the **GeoShake MQTT credentials** that came with your device. Done — the
-   earthquake sensor appears automatically.
+4. Choose **Sign in with GeoShake account** and enter your GeoShake email + password.
+   Your personal connection credentials are set up automatically — your account
+   password is never stored. (Advanced users can still pick **Manual MQTT credentials**.)
 
 Then create an automation: trigger on `Earthquake` turning **On** (see the
 [GeoShake guide](https://geoshake.org) for examples — sirens, lights, TTS announcements).
+
+### Options
+
+**Settings → Devices & Services → GeoShake → Configure:**
+
+- **Alarm auto-clear delay** — seconds until the alarm resets after the last event (default 120).
+- **Alert radius from home** — only trigger the alarm for events within this many km of
+  your Home Assistant home location (default **0 = all confirmed network events**).
+  The `Last event` sensor always shows every network event, with a `distance_km` attribute.
+
+> Note: setting up the integration again with the same account rotates your personal
+> credentials — an older installation using the same account will disconnect.
 
 ### Migrating from the manual MQTT setup
 

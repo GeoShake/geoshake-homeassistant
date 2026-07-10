@@ -3,6 +3,21 @@
     "step": {
       "user": {
         "title": "GeoShake'e bağlan",
+        "menu_options": {
+          "account": "GeoShake hesabıyla giriş yap (önerilen)",
+          "manual": "Manuel MQTT bilgileri (gelişmiş)"
+        }
+      },
+      "account": {
+        "title": "GeoShake'e giriş",
+        "description": "GeoShake hesabınızı girin. Kişisel bağlantı bilgileriniz otomatik kurulur — hesap şifreniz saklanmaz.",
+        "data": {
+          "email": "E-posta",
+          "password": "Şifre"
+        }
+      },
+      "manual": {
+        "title": "Manuel MQTT kurulumu",
         "description": "Cihazınızla birlikte gelen GeoShake MQTT bilgilerini girin.",
         "data": {
           "broker": "Sunucu",
@@ -14,7 +29,8 @@
     },
     "error": {
       "cannot_connect": "GeoShake sunucusuna bağlanılamadı. Ağınızı kontrol edip tekrar deneyin.",
-      "invalid_auth": "Kullanıcı adı veya şifre hatalı.",
+      "invalid_auth": "E-posta veya şifre hatalı.",
+      "rate_limited": "Çok fazla deneme. Birkaç dakika bekleyip tekrar deneyin.",
       "unknown": "Beklenmeyen hata. Home Assistant loglarına bakın."
     },
     "abort": {
@@ -26,7 +42,8 @@
       "init": {
         "title": "GeoShake ayarları",
         "data": {
-          "off_delay": "Alarm otomatik temizleme süresi (saniye)"
+          "off_delay": "Alarm otomatik temizleme süresi (saniye)",
+          "radius_km": "Ev konumundan uyarı yarıçapı, km (0 = tüm olaylar)"
         }
       }
     }
