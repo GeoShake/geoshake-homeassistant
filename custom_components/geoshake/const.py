@@ -19,7 +19,7 @@ DEFAULT_PORT = 8883
 EVENTS_TOPIC = "geoshake/events"
 
 # GH3c: hesap-girişli kurulum — credential takası bu API'den yapılır.
-DEFAULT_API_BASE = "https://map.geoshake.org"
+DEFAULT_API_BASE = "https://api.geoshake.org"
 
 CONF_BROKER = "broker"
 CONF_OFF_DELAY = "off_delay"
