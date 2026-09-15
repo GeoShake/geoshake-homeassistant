@@ -21,6 +21,11 @@ Home Assistant's MQTT integration slot**.
    Your personal connection credentials are set up automatically — your account
    password is never stored. (Advanced users can still pick **Manual MQTT credentials**.)
 
+   **Signed up with Google or Apple?** Those accounts have no password. Log in at
+   [my.geoshake.org](https://my.geoshake.org) → **Settings**, copy your **API key**, and
+   paste it into the **password** field instead. The key is used once and is not stored
+   in Home Assistant either.
+
 Then create an automation: trigger on `Earthquake` turning **On** (see the
 [GeoShake guide](https://geoshake.org) for examples — sirens, lights, TTS announcements).
 
@@ -30,7 +35,8 @@ Then create an automation: trigger on `Earthquake` turning **On** (see the
 
 - **Alarm auto-clear delay** — seconds until the alarm resets after the last event (default 120).
 - **Alert radius from home** — only trigger the alarm for events within this many km of
-  your Home Assistant home location (default **0 = all confirmed network events**).
+  your Home Assistant home location (default **300 km**, the same radius as the Smart Life
+  and Google Home paths; set **0** to alarm on every confirmed network event).
   The `Last event` sensor always shows every network event, with a `distance_km` attribute.
 
 > Note: setting up the integration again with the same account rotates your personal

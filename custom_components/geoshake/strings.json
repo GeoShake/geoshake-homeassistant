@@ -10,10 +10,10 @@
       },
       "account": {
         "title": "Sign in to GeoShake",
-        "description": "Enter your GeoShake account. Your personal connection credentials are set up automatically — your account password is not stored.",
+        "description": "Enter your GeoShake account. Your personal connection credentials are set up automatically — your account password is not stored. Signed up with Google or Apple? Paste the API key from my.geoshake.org → Settings into the password field instead.",
         "data": {
           "email": "Email",
-          "password": "Password"
+          "password": "Password or API key"
         }
       },
       "manual": {

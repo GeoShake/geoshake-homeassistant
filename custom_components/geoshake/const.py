@@ -25,7 +25,12 @@ CONF_BROKER = "broker"
 CONF_OFF_DELAY = "off_delay"
 # GH3c bölge filtresi: 0 = KAPALI (tüm ağ olayları); >0 km = yalnız yakın olaylar.
 CONF_RADIUS_KM = "radius_km"
-DEFAULT_RADIUS_KM = 0
+# 2026-09-16 (kurucu karari): varsayilan 300 km — Tuya koprusu ve Google Home
+# fan-out'u ile AYNI yaricap. Tek kaynak packages/shared/src/geo.ts
+# NETWORK_ALERT_RADIUS_KM; Python onu ice alamaz, bu yuzden
+# apps/web/test/network-alert-radius-pin.test.ts bu satiri o sabite PINLER.
+# 0 hala "filtre kapali" demektir (event_within); kullanici secenekten 0 yazabilir.
+DEFAULT_RADIUS_KM = 300
 
 # Alarm semantiği GH worker ile AYNI: 120sn yeni olay yoksa normale dön.
 DEFAULT_OFF_DELAY_S = 120
