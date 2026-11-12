@@ -22,4 +22,8 @@ The images in `docs/images/` are generated from HTML sources kept in the GeoShak
 
 ## Releasing
 
-HACS reads the repository root: `hacs.json`, `README.md` and `custom_components/geoshake/`. To release, bump `version` in `custom_components/geoshake/manifest.json`, then create a GitHub release with the tag `vX.Y.Z`.
+HACS and the Home Assistant Marketplace read the repository root: `hacs.json`, `README.md` and `custom_components/geoshake/`. The **Validate** (HACS action) and **Validate with hassfest** workflows run on every push; both must pass before a release. To release, bump `version` in `custom_components/geoshake/manifest.json`, then create a full GitHub release (not just a tag) with the tag `vX.Y.Z`.
+
+## License
+
+Apache License 2.0, see [LICENSE](LICENSE).

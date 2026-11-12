@@ -6,16 +6,13 @@
 
 **Earthquake early warning for Home Assistant.** When at least three GeoShake stations close to each other confirm an earthquake, the GeoShake network sends an early warning and your Home Assistant gets it too: the **Earthquake** sensor switches to **Unsafe** and your automations run (lights, sirens, announcements). Depending on your distance from the epicenter, this gives you about **5 to 30 seconds** before the strong shaking reaches you.
 
-[![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
+[![Marketplace / HACS: custom repository](https://img.shields.io/badge/Marketplace%20%2F%20HACS-custom%20repository-orange.svg)](#install)
 [![Release](https://img.shields.io/github/v/release/GeoShake/geoshake-homeassistant)](https://github.com/GeoShake/geoshake-homeassistant/releases)
 [![Home Assistant 2024.11+](https://img.shields.io/badge/Home%20Assistant-2024.11%2B-18bcf2.svg)](https://www.home-assistant.io)
 
-[![Open your Home Assistant instance and open this repository in HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=GeoShake&repository=geoshake-homeassistant&category=integration)
-[![Open your Home Assistant instance and start setting up GeoShake.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=geoshake)
-
 Also on [Google Home and Amazon Alexa](#google-home-and-amazon-alexa).
 
-![Three steps: add GeoShake to HACS, sign in with your GeoShake account, create an automation from Safe to Unsafe](docs/images/steps.png)
+![Three steps: add GeoShake to Home Assistant from the Marketplace, sign in with your GeoShake account, create an automation from Safe to Unsafe](docs/images/steps.png)
 
 > [!IMPORTANT]
 > Early warning is not guaranteed. Close to the epicenter the warning can arrive after the shaking has started, and automations can be delayed or fail to run. Treat this as a helpful extra layer, not a life-safety system: keep alerts on in the GeoShake app and follow your national authority's official warnings.
@@ -31,11 +28,17 @@ Also on [Google Home and Amazon Alexa](#google-home-and-amazon-alexa).
 
 ## Install
 
-**You'll need:** Home Assistant 2024.11 or newer (OS, Container or Supervised), [HACS](https://hacs.xyz) and your GeoShake account. It takes about five minutes.
+**You'll need:** Home Assistant 2024.11 or newer (OS, Container or Supervised) and your GeoShake account. On Home Assistant 2026.10 or older you also need [HACS](https://hacs.xyz). It takes about five minutes.
 
-1. **Add the repository to HACS.** Use the HACS button above. Or open HACS, go to **⋮ → Custom repositories**, paste `https://github.com/GeoShake/geoshake-homeassistant` and choose the type **Integration**.
-2. **Download.** Search for **GeoShake** in HACS, click **Download**, then restart Home Assistant (**Settings → System → Restart**).
-3. **Add the integration.** Go to **Settings → Devices & services → Add integration**, search for **GeoShake** and choose **Sign in with GeoShake account**.
+1. **Add GeoShake to Home Assistant.**
+   - **Home Assistant 2026.11 or newer:** go to **Settings → Marketplace**, select **Add from link** (top right), enter `GeoShake/geoshake-homeassistant` and select **Add**. The first time, the Marketplace asks you to connect GitHub.
+   - **Home Assistant 2026.10 or older:** use the HACS button below, or open HACS, go to **⋮ → Custom repositories**, paste `https://github.com/GeoShake/geoshake-homeassistant` and choose the type **Integration**.
+
+     [![Open your Home Assistant instance and open this repository in HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=GeoShake&repository=geoshake-homeassistant&category=integration)
+2. **Install.** Open **GeoShake** in the list and install it (**Download** in HACS), then restart Home Assistant (**Settings → System → Restart**).
+3. **Add the integration.** Use the button below, or go to **Settings → Devices & services → Add integration**, search for **GeoShake** and choose **Sign in with GeoShake account**.
+
+   [![Open your Home Assistant instance and start setting up GeoShake.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=geoshake)
 4. **Sign in** with your GeoShake email and password.
 
 > [!TIP]
@@ -146,9 +149,9 @@ Home Assistant lost its connection to GeoShake, usually because the internet dro
 </details>
 
 <details>
-<summary>GeoShake doesn't show up when I search HACS</summary>
+<summary>GeoShake doesn't show up when I search the Marketplace or HACS</summary>
 
-GeoShake is installed as a custom repository. Use the HACS button above, or add the repository under **⋮ → Custom repositories** first. Then the search finds it.
+GeoShake isn't in the default catalog yet. Add it once with **Add from link** in the Marketplace, or as a custom repository in HACS on older versions (see [Install](#install), step 1). Then it shows up in the list.
 
 </details>
 

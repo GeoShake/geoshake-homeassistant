@@ -10,7 +10,7 @@
       },
       "account": {
         "title": "GeoShake'e giriş",
-        "description": "GeoShake hesabınızı girin. Kişisel bağlantı bilgileriniz otomatik kurulur — hesap şifreniz saklanmaz. Google ya da Apple ile mi kayıt oldunuz? Şifre alanına my.geoshake.org → Settings sayfasındaki API anahtarınızı yapıştırın.",
+        "description": "GeoShake hesabınızı girin. Kişisel bağlantı bilgileriniz otomatik kurulur ve hesap şifreniz saklanmaz. Google ya da Apple ile mi kayıt oldunuz? Şifre alanına my.geoshake.org → Settings sayfasındaki API anahtarınızı yapıştırın.",
         "data": {
           "email": "E-posta",
           "password": "Şifre veya API anahtarı"
