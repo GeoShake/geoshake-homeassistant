@@ -4,7 +4,7 @@
 
 # GeoShake for Home Assistant
 
-Earthquake alerts from the GeoShake seismic network, as a sensor in Home Assistant. When GeoShake stations confirm an earthquake near your home, the **Earthquake** sensor switches to **Unsafe** and your automations run: lights, sirens, announcements.
+**Earthquake early warning for Home Assistant.** When at least three GeoShake stations close to each other confirm an earthquake, the GeoShake network sends an early warning and your Home Assistant gets it too: the **Earthquake** sensor switches to **Unsafe** and your automations run (lights, sirens, announcements). Depending on your distance from the epicenter, this gives you about **5 to 30 seconds** before the strong shaking reaches you.
 
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
 [![Release](https://img.shields.io/github/v/release/GeoShake/geoshake-homeassistant)](https://github.com/GeoShake/geoshake-homeassistant/releases)
@@ -18,7 +18,7 @@ Also on [Google Home and Amazon Alexa](#google-home-and-amazon-alexa).
 ![Three steps: add GeoShake to HACS, sign in with your GeoShake account, create an automation from Safe to Unsafe](docs/images/steps.png)
 
 > [!IMPORTANT]
-> This is a helpful extra notification layer. It is not a life-safety system, and automations can be delayed or fail to run. For official earthquake early warning, rely on your national authority and the GeoShake app.
+> Early warning is not guaranteed. Close to the epicenter the warning can arrive after the shaking has started, and automations can be delayed or fail to run. Treat this as a helpful extra layer, not a life-safety system: keep alerts on in the GeoShake app and follow your national authority's official warnings.
 
 ## Will it work where I live?
 
@@ -109,7 +109,7 @@ Both react to confirmed earthquakes within 300 km of the GeoShake T1 registered 
 flowchart LR
   subgraph NET["GeoShake network"]
     direction TB
-    S["3+ stations detect shaking"] --> C["Earthquake confirmed"]
+    S["3+ stations detect shaking"] --> C["Earthquake confirmed, early warning sent"]
   end
   subgraph HOME["Your Home Assistant"]
     direction TB
